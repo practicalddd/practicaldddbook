@@ -1,8 +1,5 @@
 # Practical Domain Driven Design
-
-Repository for the Practical DDD Book
-
-Chapter 2 - Cargo Tracker Logical Layout
+Source Code for the Practical Domain Driven Design Book
 
 Chapter 3 - Cargo Tracker  Implementation using DDD on Jakarta EE
 
