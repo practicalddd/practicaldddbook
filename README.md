@@ -1,10 +1,11 @@
 # Practical Domain Driven Design
-Source Code for the Practical Domain Driven Design Book
 
-Chapter 3 - Cargo Tracker  Implementation using DDD on Jakarta EE
+Source Code for the Practical Domain Driven Design Book. The source code is comprised of four chapters.
 
-Chapter 4 - Cargo Tracker Implementation using DDD on Eclipse MicroProfile (Helidon MP)
+Chapter 3 - Cargo Tracker's DDD Monolithic Implementation - Jakarta EE v8 using Eclipse Glassfish 5.1 and the MySQL Database
 
-Chapter 5 - Cargo Tracker Implementation using DDD on Spring Boot
+Chapter 4 - Cargo Tracker's DDD Microservices Implementation - Eclipse MicroProfile v2.2 using Oracle's Helidon MP implementation and the MySQL Database
 
-Chapter 6 - Cargo Tracker Implementation using the Axon frameowork
+Chapter 5 - Cargo Tracker's DDD Microservices Implementation - Spring Boot v2.1.x and the MySQL Database
+
+Chapter 6 - Cargo Tracker's DDD CQRS/ES Implementation - Axon frameowork v4.0
