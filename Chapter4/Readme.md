@@ -23,7 +23,6 @@ Booking MS
 
     This MS takes care of all the operations associated with the booking of the Cargo. The MySql Schemas and the Rabbit MQ    Exchanges have to be setup (creation and binding) before running this microservice
     
-    URL -> /cargobooking
     Server Port -> 8080
     Schema Name -> bookingmsdb
     Tables ->
@@ -54,7 +53,7 @@ Booking MS
     +-----------------------------------+--------------+------+-----+---------+----------------+
     
     
-    Legs
+    Leg
     +--------------------+--------------+------+-----+---------+----------------+
     | Field              | Type         | Null | Key | Default | Extra          |
     +--------------------+--------------+------+-----+---------+----------------+
@@ -82,12 +81,14 @@ Booking MS
     Exchanges/Queues -> 
     
     Exchange (cargotracker.cargobookings) -> Queue (cargotracker.bookingsqueue) -> RoutingKey -> (cargobookings)
+    Exchange (cargotracker.cargoroutings) -> Queue (cargotracker.routingqueue) -> RoutingKey -> (cargoroutings)
     
+    Run command -> java -jar bookingms.jar
     
-    JSON Requests ->
+    JSON Requests (Test via Postman) ->
     
-    Cargo Booking
-    -------------
+    Cargo Booking (http://localhost:8080/cargobooking)
+    --------------------------------------------------
 
     {
         "bookingAmount": 100,
@@ -95,11 +96,49 @@ Booking MS
         "destLocation" : "USNYC",
         "destArrivalDeadline" : "2019-09-28"
     }
+    
+    This returns a unique "Booking Id" which should be put into all requests with the placeholder <<BookingId>>
+    
+    Cargo Routing (http://localhost:8080/cargorouting)
+    --------------------------------------------------
+    {
+      "bookingId": "<<BookingId>>"
+    }
 
-Routing MS
 
+    Routing MS
 
-Handling MS and
+    This MS takes care of all the operations associated with the routing of the Cargo. 
+    The MySql Schemas and the Rabbit MQ Exchanges have to be setup (creation and binding) before running this microservice
+    
+    Server Port -> 8081
+    Schema Name -> routingmsdb
+    Tables ->
+    
+    voyage
+    +---------------+-------------+------+-----+---------+----------------+
+    | Field         | Type        | Null | Key | Default | Extra          |
+    +---------------+-------------+------+-----+---------+----------------+
+    | Id            | int(11)     | NO   | PRI | NULL    | auto_increment |
+    | voyage_number | varchar(20) | NO   |     | NULL    |                |
+    +---------------+-------------+------+-----+---------+----------------+
+    
+    carrier_movement
+    +-----------------------+--------------+------+-----+---------+----------------+
+    | Field                 | Type         | Null | Key | Default | Extra          |
+    +-----------------------+--------------+------+-----+---------+----------------+
+    | Id                    | int(11)      | NO   | PRI | NULL    | auto_increment |
+    | arrival_location_id   | varchar(100) | YES  |     | NULL    |                |
+    | departure_location_id | varchar(100) | YES  |     | NULL    |                |
+    | voyage_id             | int(11)      | YES  |     | NULL    |                |
+    | arrival_date          | date         | YES  |     | NULL    |                |
+    | departure_date        | date         | YES  |     | NULL    |                |
+    +-----------------------+--------------+------+-----+---------+----------------+
+    
+    Run command -> java -jar routingms.jar
+    
+    
+Handling MS
 
 Tracking MS
     
