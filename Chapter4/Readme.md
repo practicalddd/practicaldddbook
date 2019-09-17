@@ -200,7 +200,7 @@ Handling MS
     
     JSON Requests (Test via Postman) ->
      
-    Cargo Handling (http://localhost:8080/cargorouting)
+    Cargo Handling (http://localhost:8084/cargohandling)
     --------------------------------------------------
     
     Run in sequence
