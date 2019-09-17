@@ -24,7 +24,7 @@ Booking MS
     This MS takes care of all the operations associated with the booking of the Cargo. The MySql Schemas and the Rabbit MQ    Exchanges have to be setup (creation and binding) before running this microservice
     
     Server Port -> 8080
-    Schema Name -> bookingmsdb
+    Schema Name -> bookingmsdb (user: bookingmsdb / pw: bookingmsdb)
     Tables ->
     
     Cargo
@@ -106,13 +106,13 @@ Booking MS
     }
 
 
-    Routing MS
+  Routing MS
 
     This MS takes care of all the operations associated with the routing of the Cargo. 
     The MySql Schemas and the Rabbit MQ Exchanges have to be setup (creation and binding) before running this microservice
     
     Server Port -> 8081
-    Schema Name -> routingmsdb
+    Schema Name -> routingmsdb (user: routingmsdb / pw: routingmsdb)
     Tables ->
     
     voyage
@@ -138,7 +138,155 @@ Booking MS
     Run command -> java -jar routingms.jar
     
     
-Handling MS
-
 Tracking MS
+
+    This MS takes care of all the tracking operations associated with the Cargo. 
+    The MySql Schemas and the Rabbit MQ Exchanges have to be setup (creation and binding) before running this microservice
+    
+    Server Port -> 8082
+    Schema Name -> trackingmsdb (user: trackingmsdb/pw:trackingmsdb)
+    Tables ->
+    
+    tracking_activity
+    +-----------------+-------------+------+-----+---------+----------------+
+    | Field           | Type        | Null | Key | Default | Extra          |
+    +-----------------+-------------+------+-----+---------+----------------+
+    | Id              | int(11)     | NO   | PRI | NULL    | auto_increment |
+    | tracking_number | varchar(20) | NO   |     | NULL    |                |
+    | booking_id      | varchar(20) | YES  |     | NULL    |                |
+    +-----------------+-------------+------+-----+---------+----------------+
+    
+    tracking_handling_events
+    +---------------+--------------+------+-----+---------+----------------+
+    | Field         | Type         | Null | Key | Default | Extra          |
+    +---------------+--------------+------+-----+---------+----------------+
+    | Id            | int(11)      | NO   | PRI | NULL    | auto_increment |
+    | tracking_id   | int(11)      | YES  |     | NULL    |                |
+    | event_type    | varchar(225) | YES  |     | NULL    |                |
+    | event_time    | timestamp    | YES  |     | NULL    |                |
+    | location_id   | varchar(100) | YES  |     | NULL    |                |
+    | voyage_number | varchar(20)  | YES  |     | NULL    |                |
+    +---------------+--------------+------+-----+---------+----------------+
+    
+    Run command -> java -jar trackingms.jar
+    
+
+Handling MS
+    
+    This MS takes care of all the handling operations associated with the Cargo. 
+    The MySql Schemas and the Rabbit MQ Exchanges have to be setup (creation and binding) before running this microservice
+    
+    Server Port -> 8084
+    Schema Name -> handlingmsdb (user: handlingmsdb/pw:handlingmsdb)
+    Tables ->
+
+    handling_activity
+    +-----------------------+--------------+------+-----+---------+----------------+
+    | Field                 | Type         | Null | Key | Default | Extra          |
+    +-----------------------+--------------+------+-----+---------+----------------+
+    | id                    | int(11)      | NO   | PRI | NULL    | auto_increment |
+    | event_completion_time | timestamp    | YES  |     | NULL    |                |
+    | event_type            | varchar(225) | YES  |     | NULL    |                |
+    | booking_id            | varchar(20)  | YES  |     | NULL    |                |
+    | voyage_number         | varchar(100) | YES  |     | NULL    |                |
+    | location              | varchar(100) | YES  |     | NULL    |                |
+    +-----------------------+--------------+------+-----+---------+----------------+
+    
+    Exchanges/Queues -> 
+    
+    Exchange (cargotracker.cargohandlings) -> Queue (cargotracker.handlingqueue) -> RoutingKey -> (cargohandlings)
+    
+    Run command -> java -jar handlingms.jar
+    
+    JSON Requests (Test via Postman) ->
+     
+    Cargo Handling (http://localhost:8080/cargorouting)
+    --------------------------------------------------
+    
+    Run in sequence
+    
+    Recieved at port
+    {
+	    "bookingId" : "<<BookingId>>",
+	    "unLocode" : "CNHKG",
+	    "handlingType" : "RECEIVE",
+	    "completionTime": "2019-08-23",
+	    "voyageNumber" : ""
+    }
+    
+    Loaded onto carrier
+    {
+	    "bookingId" : "<<BookingId>>",
+	    "unLocode" : "CNHKG",
+	    "handlingType" : "LOAD",
+	    "completionTime": "2019-08-25",
+	    "voyageNumber" : "0100S"
+    }
+    
+    Unloaded
+    {
+	    "bookingId" : "<<BookingId>>",
+	    "unLocode" : "CNHGH",
+	    "handlingType" : "UNLOAD",
+	    "completionTime": "2019-08-28",
+	    "voyageNumber" : "0100S"
+    }
+    
+    Loaded onto next carrier
+    {
+	    "bookingId" : "<<BookingId>>",
+	    "unLocode" : "CNHGH",
+	    "handlingType" : "LOAD",
+	    "completionTime": "2019-09-01",
+	    "voyageNumber" : "0101S"
+    }
+    
+    Unloaded
+    {
+	    "bookingId" : "<<BookingId>>",
+	    "unLocode" : "JNTKO",
+	    "handlingType" : "UNLOAD",
+	    "completionTime": "2019-09-10",
+	    "voyageNumber" : "0101S"
+    }
+    
+    Loaded onto next carrier
+    {
+	    "bookingId" : "<<BookingId>>",
+	    "unLocode" : "JNTKO",
+	    "handlingType" : "LOAD",
+	    "completionTime": "2019-09-15",
+	    "voyageNumber" : "0102S"
+    }
+    
+    Unloaded
+    {
+	    "bookingId" : "<<BookingId>>",
+	    "unLocode" : "USNYC",
+	    "handlingType" : "UNLOAD",
+	    "completionTime": "2019-09-25",
+	    "voyageNumber" : "0102S"
+    }
+    
+    Customs
+    {
+	    "bookingId" : "<<BookingId>>",
+	    "unLocode" : "USNYC",
+	    "handlingType" : "CUSTOMS",
+	    "completionTime": "2019-09-26",
+	    "voyageNumber" : ""
+    }
+    
+    Claimed
+    {
+	    "bookingId" : "<<BookingId>>",
+	    "unLocode" : "USNYC",
+	    "handlingType" : "CLAIM",
+	    "completionTime": "2019-09-28",
+	    "voyageNumber" : ""
+    }
+    
+    
+     
+    
     
