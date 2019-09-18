@@ -21,6 +21,14 @@ The test case is as follows
 
 Before running the services, you would need to install the RabbitMQ CDI Adaptor to your local Maven Repository. The Utilities folder has the jar files you would need to install (rabbitadaptor-core , rabbitadaptor-cdi)
 
+mvn install:install-file -Dfile=rabbitadaptor-1.0.pom -DgroupId=com.practicalddd.cargotracker -DartifactId=rabbitadaptor -Dversion=1.0 -Dpackaging=pom
+
+mvn install:install-file -Dfile=rabbitadaptor-core-1.0.jar -DpomFile=rabbitadaptor-core-1.0.pom
+
+mvn install:install-file -Dfile=rabbitadaptor-cdi-1.0.jar -DpomFile=rabbitadaptor-cdi-1.0.pom
+
+
+
 # Microservices
 
 Booking MS
