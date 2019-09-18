@@ -17,6 +17,10 @@ The test case is as follows
 - Based on the specifications the Cargo is routed accordingly by assigning an itinierary
 - The Cargo is handled at the various ports of the itinerary and is finally claimed by the customer
 
+# RabbitMQ CDI Adaptor
+
+Before running the services, you would need to install the RabbitMQ CDI Adaptor to your local Maven Repository. The Utilities folder has the jar files you would need to install (rabbitadaptor-core , rabbitadaptor-cdi)
+
 # Microservices
 
 Booking MS
