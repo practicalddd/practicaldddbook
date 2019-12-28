@@ -4,11 +4,9 @@ package com.practicalddd.cargotracker.trackingms.interfaces.events;
 import com.practicalddd.cargotracker.shareddomain.events.CargoHandledEvent;
 import com.practicalddd.cargotracker.trackingms.application.internal.commandservices.AssignTrackingIdCommandService;
 import com.practicalddd.cargotracker.trackingms.infrastructure.brokers.rabbitmq.HandlingBinding;
-import com.practicalddd.cargotracker.trackingms.infrastructure.brokers.rabbitmq.RoutingBinding;
 import com.practicalddd.cargotracker.trackingms.interfaces.events.transform.TrackingActivityCommandEventAssembler;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
-import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,16 +20,17 @@ public class CargoHandledEventHandler {
 
     /**
      * Provide the dependencies
+     *
      * @param assignTrackingIdCommandService
      */
-    public CargoHandledEventHandler(AssignTrackingIdCommandService assignTrackingIdCommandService){
+    public CargoHandledEventHandler(AssignTrackingIdCommandService assignTrackingIdCommandService) {
         this.assignTrackingIdCommandService = assignTrackingIdCommandService;
     }
 
     @StreamListener(target = HandlingBinding.HANDLING)
     public void receiveEvent(CargoHandledEvent cargoHandledEvent) {
         //Process the Event
-        System.out.println("XXXXXXXXXX"+cargoHandledEvent.getCargoHandledEventData());
+        System.out.println("XXXXXXXXXX" + cargoHandledEvent.getCargoHandledEventData());
         assignTrackingIdCommandService.addTrackingEvent(
                 TrackingActivityCommandEventAssembler
                         .toCommandFromEvent(cargoHandledEvent));

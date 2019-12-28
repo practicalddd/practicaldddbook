@@ -19,19 +19,20 @@ import java.util.UUID;
 @Service
 public class AssignTrackingIdCommandService {
 
-
     private TrackingRepository trackingRepository;
 
 
-    public AssignTrackingIdCommandService(TrackingRepository trackingRepository){
+    public AssignTrackingIdCommandService(TrackingRepository trackingRepository) {
         this.trackingRepository = trackingRepository;
     }
+
     /**
      * Service Command method to assign a tracking id to the booked cargo
+     *
      * @return Tracking Number of the Cargo
      */
     @Transactional // Inititate the Transaction
-    public TrackingNumber assignTrackingNumberToCargo(AssignTrackingNumberCommand assignTrackingNumberCommand){
+    public TrackingNumber assignTrackingNumberToCargo(AssignTrackingNumberCommand assignTrackingNumberCommand) {
         String random = UUID.randomUUID().toString().toUpperCase();
         String trackingNumber = random.substring(0, random.indexOf("-"));
         assignTrackingNumberCommand.setTrackingNumber(trackingNumber);
@@ -43,16 +44,16 @@ public class AssignTrackingIdCommandService {
 
     /**
      * Service Command method to assign a route to a Cargo
+     *
      * @param addTrackingEventCommand
      */
     @Transactional
-    public void addTrackingEvent(AddTrackingEventCommand addTrackingEventCommand){
+    public void addTrackingEvent(AddTrackingEventCommand addTrackingEventCommand) {
         TrackingActivity trackingActivity = trackingRepository.findByBookingNumber(
-                        new BookingId(addTrackingEventCommand.getBookingId()));
+                new BookingId(addTrackingEventCommand.getBookingId()));
 
         trackingActivity.addTrackingEvent(addTrackingEventCommand);
         trackingRepository.save(trackingActivity);
     }
-
 
 }

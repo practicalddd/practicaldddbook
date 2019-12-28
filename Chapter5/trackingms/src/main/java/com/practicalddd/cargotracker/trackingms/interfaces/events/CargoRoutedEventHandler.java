@@ -7,7 +7,6 @@ import com.practicalddd.cargotracker.trackingms.infrastructure.brokers.rabbitmq.
 import com.practicalddd.cargotracker.trackingms.interfaces.events.transform.TrackingDetailsCommandEventAssembler;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
-import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,15 +20,16 @@ public class CargoRoutedEventHandler {
 
     /**
      * Provide the dependencies
+     *
      * @param assignTrackingIdCommandService
      */
-    public CargoRoutedEventHandler(AssignTrackingIdCommandService assignTrackingIdCommandService){
+    public CargoRoutedEventHandler(AssignTrackingIdCommandService assignTrackingIdCommandService) {
         this.assignTrackingIdCommandService = assignTrackingIdCommandService;
     }
 
     @StreamListener(target = RoutingBinding.ROUTING)
     public void receiveEvent(CargoRoutedEvent cargoRoutedEvent) {
-        System.out.println("Cargo routed Event"+cargoRoutedEvent);
+        System.out.println("Cargo routed Event" + cargoRoutedEvent);
         System.out.println(cargoRoutedEvent.getCargoRoutedEventData());
         System.out.println(cargoRoutedEvent.getCargoRoutedEventData().getBookingId());
         //Process the Event
