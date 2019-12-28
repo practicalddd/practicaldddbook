@@ -13,7 +13,6 @@ public class HandlingActivityHistory {
             Collections.<HandlingActivity>emptyList());
 
     public HandlingActivityHistory(Collection<HandlingActivity> handlingEvents) {
-
         this.handlingEvents = new ArrayList<>(handlingEvents);
     }
 
