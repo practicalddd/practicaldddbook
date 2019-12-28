@@ -20,6 +20,7 @@ public class HandlingActivityRegistrationCommandDTOAssembler {
         System.out.println("Unlocode"+handlingActivityRegistrationResource.getUnLocode());
         System.out.println("HandlingType"+handlingActivityRegistrationResource.getHandlingType());
         System.out.println("Completion Time"+handlingActivityRegistrationResource.getCompletionTime());
+
         return new HandlingActivityRegistrationCommand(
                 handlingActivityRegistrationResource.getBookingId(),
                 handlingActivityRegistrationResource.getVoyageNumber(),

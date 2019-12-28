@@ -7,8 +7,8 @@ import com.practicalddd.cargotracker.handlingms.domain.model.valueobjects.Type;
 import com.practicalddd.cargotracker.handlingms.domain.model.valueobjects.VoyageNumber;
 import com.practicalddd.cargotracker.shareddomain.events.CargoHandledEvent;
 import com.practicalddd.cargotracker.shareddomain.events.CargoHandledEventData;
-import com.practicalddd.cargotracker.shareddomain.events.CargoRoutedEvent;
-import com.practicalddd.cargotracker.shareddomain.events.CargoRoutedEventData;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
@@ -18,6 +18,8 @@ import java.util.Date;
  * Root Aggregate for the Handling Bounded Context
  */
 @Entity
+@NoArgsConstructor
+@Getter
 @NamedQuery(name = "HandlingActivity.findByBookingId",
         query = "Select e from HandlingActivity e where e.cargoBookingId.bookingId = :bookingId")
 @Table(name="handling_activity")
@@ -26,21 +28,23 @@ public class HandlingActivity extends AbstractAggregateRoot<HandlingActivity> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Enumerated(EnumType.STRING)
     @Column(name="event_type")
     private Type type;
+
     @Embedded
     private VoyageNumber voyageNumber;
+
     @Embedded
     private Location location;
+
     @Temporal(TemporalType.DATE)
     @Column(name = "event_completion_time")
     private Date completionTime;
 
     @Embedded
     private CargoBookingId cargoBookingId;
-
-    public HandlingActivity(){}
 
 
     /**
@@ -68,11 +72,11 @@ public class HandlingActivity extends AbstractAggregateRoot<HandlingActivity> {
         CargoHandledEvent cargoHandledEvent =
                 new CargoHandledEvent(
                     new CargoHandledEventData(
-                        this.cargoBookingId.getBookingId(),
-                        this.completionTime,
-                        this.location.getUnLocCode(),
-                        this.type.toString(),
-                        this.voyageNumber.getVoyageNumber()));
+                            this.cargoBookingId.getBookingId(),
+                            this.type.toString(),
+                            this.completionTime,
+                            this.location.getUnLocCode(),
+                            this.voyageNumber.getVoyageNumber()));
 
 
         //Add this domain event which needs to be fired when the new cargo is saved
@@ -104,9 +108,9 @@ public class HandlingActivity extends AbstractAggregateRoot<HandlingActivity> {
                 new CargoHandledEvent(
                         new CargoHandledEventData(
                                 this.cargoBookingId.getBookingId(),
+                                this.type.toString(),
                                 this.completionTime,
                                 this.location.getUnLocCode(),
-                                this.type.toString(),
                                ""));
 
 
@@ -115,22 +119,8 @@ public class HandlingActivity extends AbstractAggregateRoot<HandlingActivity> {
     }
 
 
-    public Type getType() {
-        return this.type;
-    }
-
-    public VoyageNumber getVoyage() {
-        return this.voyageNumber;
-    }
-
     public Date getCompletionTime() {
         return new Date(this.completionTime.getTime());
-    }
-
-    public Location getLocation() { return this.location; }
-
-    public CargoBookingId getCargoBookingId() {
-        return this.cargoBookingId;
     }
 
     /**

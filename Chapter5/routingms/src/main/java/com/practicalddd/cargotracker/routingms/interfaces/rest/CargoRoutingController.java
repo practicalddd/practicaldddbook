@@ -19,20 +19,19 @@ import java.util.List;
 @RequestMapping("/cargorouting")
 public class CargoRoutingController {
 
-
     private CargoRoutingQueryService cargoRoutingQueryService; // Application Service Dependency
 
     /**
      * Provide the dependencies
+     *
      * @param cargoRoutingQueryService
      */
-    public CargoRoutingController(CargoRoutingQueryService cargoRoutingQueryService){
+    public CargoRoutingController(CargoRoutingQueryService cargoRoutingQueryService) {
         this.cargoRoutingQueryService = cargoRoutingQueryService;
     }
 
 
     /**
-     *
      * @param originUnLocode
      * @param destinationUnLocode
      * @param deadline
@@ -42,19 +41,19 @@ public class CargoRoutingController {
     @GetMapping(path = "/optimalRoute")
     @ResponseBody
     public TransitPath findOptimalRoute(
-             @RequestParam("origin") String originUnLocode,
-             @RequestParam("destination") String destinationUnLocode,
-             @RequestParam("deadline") String deadline) {
+            @RequestParam("origin") String originUnLocode,
+            @RequestParam("destination") String destinationUnLocode,
+            @RequestParam("deadline") String deadline) {
 
         List<Voyage> voyages = cargoRoutingQueryService.findAll();
         TransitPath transitPath = new TransitPath();
         List<TransitEdge> transitEdges = new ArrayList<>();
-        for(Voyage voyage:voyages){
+        for (Voyage voyage : voyages) {
 
             TransitEdge transitEdge = new TransitEdge();
             transitEdge.setVoyageNumber(voyage.getVoyageNumber().getVoyageNumber());
             CarrierMovement movement =
-                    ((List<CarrierMovement>)voyage.getSchedule().getCarrierMovements()).get(0);
+                    ((List<CarrierMovement>) voyage.getSchedule().getCarrierMovements()).get(0);
             transitEdge.setFromDate(movement.getArrivalDate());
             transitEdge.setToDate(movement.getDepartureDate());
             transitEdge.setFromUnLocode(movement.getArrivalLocation().getUnLocCode());

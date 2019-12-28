@@ -14,7 +14,6 @@ import java.util.List;
 @Service
 public class CargoBookingQueryService {
 
-
     private CargoRepository cargoRepository; // Inject Dependencies
 
     /**
@@ -31,7 +30,6 @@ public class CargoBookingQueryService {
      * @return List<BookingId>
      */
    public List<BookingId> findAllBookingIds(){
-
        return cargoRepository.findAllBookingIds();
    }
 

@@ -11,10 +11,11 @@ public class TrackingActivityCommandEventAssembler {
 
     /**
      * Static method within the Assembler class
+     *
      * @param cargoHandledEvent
      * @return AssignTrackingNumberCommand Model
      */
-    public static AddTrackingEventCommand toCommandFromEvent(CargoHandledEvent cargoHandledEvent){
+    public static AddTrackingEventCommand toCommandFromEvent(CargoHandledEvent cargoHandledEvent) {
         CargoHandledEventData eventData = cargoHandledEvent.getCargoHandledEventData();
         return new AddTrackingEventCommand(
                 eventData.getBookingId(),
@@ -23,4 +24,5 @@ public class TrackingActivityCommandEventAssembler {
                 eventData.getHandlingLocation(),
                 eventData.getVoyageNumber());
     }
+
 }

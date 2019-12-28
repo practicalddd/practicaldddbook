@@ -3,6 +3,7 @@ package com.practicalddd.cargotracker.routingms.infrastructure.repositories.jpa;
 
 import com.practicalddd.cargotracker.routingms.domain.model.aggregates.Voyage;
 import org.springframework.data.jpa.repository.JpaRepository;
+
 import java.util.List;
 
 /**
@@ -11,9 +12,9 @@ import java.util.List;
 public interface VoyageRepository extends JpaRepository<Voyage, Long> {
     /**
      * Find all Voyage Aggregates
+     *
      * @return
      */
-    List<Voyage> findAll() ;
-
+    List<Voyage> findAll();
 
 }

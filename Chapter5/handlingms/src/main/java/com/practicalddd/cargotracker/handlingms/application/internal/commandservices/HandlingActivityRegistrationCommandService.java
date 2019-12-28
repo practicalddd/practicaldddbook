@@ -7,18 +7,17 @@ import com.practicalddd.cargotracker.handlingms.domain.model.valueobjects.Locati
 import com.practicalddd.cargotracker.handlingms.domain.model.valueobjects.Type;
 import com.practicalddd.cargotracker.handlingms.domain.model.valueobjects.VoyageNumber;
 import com.practicalddd.cargotracker.handlingms.infrastructure.repositories.jpa.HandlingActivityRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 
 @Service
+@AllArgsConstructor
 public class HandlingActivityRegistrationCommandService {
 
 
         private HandlingActivityRepository handlingActivityRepository;
-
-        public HandlingActivityRegistrationCommandService(HandlingActivityRepository handlingActivityRepository){
-                this.handlingActivityRepository = handlingActivityRepository;
-        }
 
         /**
          * Service Command method to register a new Handling Activity

@@ -6,7 +6,6 @@ import com.practicalddd.cargotracker.bookingms.domain.model.aggregates.BookingId
 import com.practicalddd.cargotracker.bookingms.domain.model.aggregates.Cargo;
 import com.practicalddd.cargotracker.bookingms.interfaces.rest.dto.BookCargoResource;
 import com.practicalddd.cargotracker.bookingms.interfaces.rest.transform.BookCargoCommandDTOAssembler;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,30 +13,31 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/cargobooking")
 public class CargoBookingController {
 
-
     private CargoBookingCommandService cargoBookingCommandService; // Application Service Dependency
 
     private CargoBookingQueryService cargoBookingQueryService;
 
     /**
      * Provide the dependencies
+     *
      * @param cargoBookingCommandService
      */
-    public CargoBookingController(CargoBookingCommandService cargoBookingCommandService, CargoBookingQueryService cargoBookingQueryService){
+    public CargoBookingController(CargoBookingCommandService cargoBookingCommandService, CargoBookingQueryService cargoBookingQueryService) {
         this.cargoBookingCommandService = cargoBookingCommandService;
         this.cargoBookingQueryService = cargoBookingQueryService;
     }
 
     /**
      * POST method to book a cargo
+     *
      * @param bookCargoResource
      */
 
     @PostMapping
     @ResponseBody
-    public BookingId bookCargo(@RequestBody  BookCargoResource bookCargoResource){
-        System.out.println("****Cargo Booked ****"+bookCargoResource.getBookingAmount());
-        BookingId bookingId  = cargoBookingCommandService.bookCargo(
+    public BookingId bookCargo(@RequestBody BookCargoResource bookCargoResource) {
+        System.out.println("****Cargo Booked ****" + bookCargoResource.getBookingAmount());
+        BookingId bookingId = cargoBookingCommandService.bookCargo(
                 BookCargoCommandDTOAssembler.toCommandFromDTO(bookCargoResource));
 
         return bookingId;
@@ -45,12 +45,13 @@ public class CargoBookingController {
 
     /**
      * GET method to retrieve a Cargo
+     *
      * @param bookingId
      * @return
      */
     @GetMapping("/findCargo")
     @ResponseBody
-    public Cargo findByBookingId(@RequestParam("bookingId") String bookingId){
+    public Cargo findByBookingId(@RequestParam("bookingId") String bookingId) {
         return cargoBookingQueryService.find(new BookingId(bookingId));
     }
 }

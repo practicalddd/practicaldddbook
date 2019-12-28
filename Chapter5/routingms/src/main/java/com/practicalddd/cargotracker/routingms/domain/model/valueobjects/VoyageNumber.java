@@ -1,14 +1,21 @@
 package com.practicalddd.cargotracker.routingms.domain.model.valueobjects;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Embeddable
 public class VoyageNumber {
-    @Column(name="voyage_number")
+
+    @Column(name = "voyage_number")
     private String voyageNumber;
-    public VoyageNumber(){}
-    public VoyageNumber(String voyageNumber){this.voyageNumber = voyageNumber;}
-    public String getVoyageNumber(){return this.voyageNumber;}
-    public void setVoyageNumber(String voyageNumber){this.voyageNumber = voyageNumber;}
+
 }
