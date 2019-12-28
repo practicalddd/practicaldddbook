@@ -1,18 +1,18 @@
 package com.practicalddd.cargotracker.bookingms.domain.model.aggregates;
 
-import javax.persistence.*;
-
 import com.practicalddd.cargotracker.bookingms.domain.model.commands.BookCargoCommand;
-import com.practicalddd.cargotracker.bookingms.domain.model.commands.RouteCargoCommand;
 import com.practicalddd.cargotracker.bookingms.domain.model.entities.Location;
-import com.practicalddd.cargotracker.bookingms.domain.model.valueobjects.LastCargoHandledEvent;
 import com.practicalddd.cargotracker.bookingms.domain.model.valueobjects.*;
 import com.practicalddd.cargotracker.shareddomain.events.CargoBookedEvent;
 import com.practicalddd.cargotracker.shareddomain.events.CargoBookedEventData;
 import com.practicalddd.cargotracker.shareddomain.events.CargoRoutedEvent;
 import com.practicalddd.cargotracker.shareddomain.events.CargoRoutedEventData;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
+import javax.persistence.*;
+
+@NoArgsConstructor
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Cargo.findAll",
@@ -22,28 +22,28 @@ import org.springframework.data.domain.AbstractAggregateRoot;
         @NamedQuery(name = "Cargo.findAllBookingIds",
                 query = "Select c.bookingId from Cargo c") })
 public class Cargo extends AbstractAggregateRoot<Cargo> {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Embedded
     private BookingId bookingId; // Aggregate Identifier
+
     @Embedded
     private BookingAmount bookingAmount; //Booking Amount
+
     @Embedded
     private Location origin; //Origin Location of the Cargo
+
     @Embedded
     private RouteSpecification routeSpecification; //Route Specification of the Cargo
+
     @Embedded
     private CargoItinerary itinerary; //Itinerary Assigned to the Cargo
+
     @Embedded
     private Delivery delivery; // Checks the delivery progress of the cargo against the actual Route Specification and Itinerary
-
-    /**
-     * Default Constructor
-     */
-    public Cargo() {
-        // Nothing to initialize.
-    }
 
     /**
      * Constructor Command Handler for a new Cargo booking. Sets the state of the Aggregate
@@ -93,6 +93,7 @@ public class Cargo extends AbstractAggregateRoot<Cargo> {
     public void setBookingAmount(BookingAmount bookingAmount){
         this.bookingAmount = bookingAmount;
     }
+
     /**
      * @return The itinerary
      */
@@ -129,6 +130,5 @@ public class Cargo extends AbstractAggregateRoot<Cargo> {
     public void addDomainEvent(Object event){
         registerEvent(event);
     }
-
 
 }
