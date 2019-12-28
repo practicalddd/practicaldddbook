@@ -3,10 +3,14 @@ package com.practicalddd.cargotracker.routingms.domain.model.aggregates;
 
 import com.practicalddd.cargotracker.routingms.domain.model.valueobjects.Schedule;
 import com.practicalddd.cargotracker.routingms.domain.model.valueobjects.VoyageNumber;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@NoArgsConstructor
+@Getter
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Voyage.findByVoyageNumber", query = "Select v from Voyage v where v.voyageNumber = :voyageNumber"),
@@ -24,20 +28,9 @@ public class Voyage {
     @Embedded
     private VoyageNumber voyageNumber;
 
-    public Voyage(){}
-
-    public Voyage(VoyageNumber voyageNumber,Schedule schedule){
+    public Voyage(VoyageNumber voyageNumber, Schedule schedule) {
         this.schedule = schedule;
         this.voyageNumber = voyageNumber;
     }
-
-    public VoyageNumber getVoyageNumber() {
-        return voyageNumber;
-    }
-
-    public Schedule getSchedule() {
-        return schedule;
-    }
-
 
 }

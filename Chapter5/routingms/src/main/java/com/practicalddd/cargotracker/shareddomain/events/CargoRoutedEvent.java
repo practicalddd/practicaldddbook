@@ -6,8 +6,15 @@ package com.practicalddd.cargotracker.shareddomain.events;
  */
 
 public class CargoRoutedEvent {
+
     private CargoRoutedEventData cargoRoutedEventData;
-    public void setContent(CargoRoutedEventData cargoRoutedEventData) { this.cargoRoutedEventData = cargoRoutedEventData; }
+
+    // TODO rename?
+    public void setContent(CargoRoutedEventData cargoRoutedEventData) {
+        this.cargoRoutedEventData = cargoRoutedEventData;
+    }
+
+    // TODO rename?
     public CargoRoutedEventData getContent() {
         return cargoRoutedEventData;
     }

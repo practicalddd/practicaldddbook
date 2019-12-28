@@ -1,10 +1,17 @@
 package com.practicalddd.cargotracker.shareddomain.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
+@Getter
+@Setter
 @XmlRootElement
 public class TransitPath implements Serializable {
 
@@ -12,18 +19,6 @@ public class TransitPath implements Serializable {
 
     public TransitPath() {
         this.transitEdges = new ArrayList<>();
-    }
-
-    public TransitPath(List<TransitEdge> transitEdges) {
-        this.transitEdges = transitEdges;
-    }
-
-    public List<TransitEdge> getTransitEdges() {
-        return transitEdges;
-    }
-
-    public void setTransitEdges(List<TransitEdge> transitEdges) {
-        this.transitEdges = transitEdges;
     }
 
     @Override
