@@ -21,7 +21,7 @@ public class LastCargoHandledEvent {
     public LastCargoHandledEvent(){}
 
 
-    public LastCargoHandledEvent(Integer handlingEventId, String handlingEventType, String handlignEventVoyage, String handlingEventLocation){
+    public LastCargoHandledEvent(Integer handlingEventId, String handlingEventType, String handlingEventVoyage, String handlingEventLocation){
         this.handlingEventId = handlingEventId;
         this.handlingEventType = handlingEventType;
         this.handlingEventVoyage = handlingEventVoyage;
